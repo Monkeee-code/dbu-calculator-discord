@@ -90,8 +90,7 @@ client.on('interactionCreate', async (interaction) => {
             .addFields(
                 { name: `${bossSelect}:`, value: finalStats.toLocaleString('en-US'), inline: true },
                 { name: `Stats to Rebirth:`, value: statToReb.toString(), inline: true },
-                { name: `Punch Gain (Strength):`, value: punchstr, inline: true },
-                { name: `Punch Gain (Speed):`, value: punchspd, inline: true },
+                { name: `Punch Gain:`, value: `Strength: ${punchstr} | Speed: ${punchspd}`, inline: true },
                 { name: `Ki Blast:`, value: punchstr, inline: true },
                 { name: `Defense:`, value: abs, inline: true },
                 { name: `Aura Boost:`, value: `${speed} Speed/s`, inline: true })
