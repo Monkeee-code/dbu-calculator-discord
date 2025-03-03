@@ -44,6 +44,10 @@ const commands = [
         options: [
             { name: "ephemeral", description: "If you want he message to only be vissible to you. Default: false", type: ApplicationCommandOptionType.Boolean, required: false}
         ]
+    },
+    {
+        name: "help",
+        description: "Displays the info about the bot",
     }
 ]
 

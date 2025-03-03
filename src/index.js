@@ -1,4 +1,4 @@
-const { Client, IntentsBitField, EmbedBuilder, InteractionResponseType, MessageFlags } = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder, ActivityType, MessageFlags } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({intents:[
@@ -43,7 +43,9 @@ const bosses = {
 };
 
 client.on("ready", (e) => {
-    console.log(`The bot has logged in as ${e.user.username}`)
+    console.log(`The bot has logged in as ${e.user.username}`);
+
+    client.user.setActivity({ name: "/help | Check our Website", type: ActivityType.Listening, });
 })
 
 client.on('interactionCreate', async (interaction) => {
@@ -88,12 +90,12 @@ client.on('interactionCreate', async (interaction) => {
         const embedResponse = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Calculation`)
             .addFields(
-                { name: `${bossSelect}:`, value: finalStats.toLocaleString('en-US'), inline: true },
-                { name: `Stats to Rebirth:`, value: statToReb.toString(), inline: true },
-                { name: `Punch Gain:`, value: `Strength: ${punchstr} | Speed: ${punchspd}`, inline: true },
-                { name: `Ki Blast:`, value: punchstr, inline: true },
-                { name: `Defense:`, value: abs, inline: true },
-                { name: `Aura Boost:`, value: `${speed} Speed/s`, inline: true })
+                { name: `${bossSelect}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
+                { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${statToReb.toString()}`, inline: true },
+                { name: `Punch Gain:`, value: `<:redgem:1346201700150808691> Strength: ${punchstr}\n<:bluegem:1346201659197489162> Speed: ${punchspd}`, inline: true },
+                { name: `Ki Blast:`, value: `<:yellowgem:1346201685537722388> ${punchstr}`, inline: true },
+                { name: `Defense:`, value: `<:greencube:1346201710518992999> ${abs}`, inline: true },
+                { name: `Aura Boost:`, value: `<:bluegem:1346201659197489162> ${speed} Speed/s`, inline: true })
             .setThumbnail(interaction.user.avatarURL())
             .setColor('Random')
 
@@ -113,6 +115,15 @@ client.on('interactionCreate', async (interaction) => {
             .setDescription(`## **Boss names and base Stat Gain**\n${bossList}`)
             .setColor("Random")
         await interaction.reply({ embeds:[EmbedList], flags: isEphemeral ? MessageFlags.Ephemeral : 0})
+    }
+
+    if(interaction.commandName == "help"){
+        const embedResponse = new EmbedBuilder()
+            .setTitle("Help Command")
+            .setDescription("## About us\n**This Discord bot was made by <@642428322168569906> and <@909484644917981214>. This bot is integration from our [Website](https://monkeee-code.github.io/dbu-calculator/) to discord. This tool is a calculator for a roblox game called [Dragon Blox Ultimate](https://www.roblox.com/games/3311165597/), but we are not affiliated with the developers in any way. If you want to support us in any way, you may do so by boosting <:nitro:1346201669142319237> our [Discord Server](https://discord.gg/dAtcaSmDSs) which is also where you can contact us!**\n## Commands\n**/help - Shows current embed**\n**/bosslist - Lists all of the DBU Bosses and their Base stat gain**\n**/calculate - Calculates your given info and tells you the information** \`(Main Command)\`")
+            .setColor("DarkPurple")
+            .setThumbnail(client.user.avatarURL())
+        await interaction.reply({embeds:[embedResponse]})
     }
 })
 
