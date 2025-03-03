@@ -1,4 +1,4 @@
-const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder, InteractionResponseType, MessageFlags } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({intents:[
@@ -69,17 +69,9 @@ client.on('interactionCreate', async (interaction) => {
         if (talents == true) totalMultiplier += baseMultiplier;
 
         // Step 2: Global Boost
-        if (boost == 1) totalMultiplier += baseMultiplier;
-        if (boost == 2) totalMultiplier += (2 * baseMultiplier);
-        if (boost == 3) totalMultiplier += (3 * baseMultiplier);
-
-        console.log(totalMultiplier)
-        console.log(baseMultiplier)
-        console.log(talents);
-        console.log(bossBaseStats)
-        console.log(boost)
-        console.log(rebirths)
-        console.log(bossSelect)
+        if (boost == 2) totalMultiplier += baseMultiplier;
+        if (boost == 3) totalMultiplier += (2 * baseMultiplier);
+        if (boost == 4) totalMultiplier += (3 * baseMultiplier);
 
         // Gets the final stats
         const finalStats = totalMultiplier * bossBaseStats
@@ -94,7 +86,7 @@ client.on('interactionCreate', async (interaction) => {
 
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
-            .setTitle("Calculation")
+            .setTitle(`${interaction.user.username}'s Calculation`)
             .addFields(
                 { name: `${bossSelect}:`, value: finalStats.toLocaleString('en-US'), inline: true },
                 { name: `Stats to Rebirth:`, value: statToReb.toString(), inline: true },
@@ -102,12 +94,26 @@ client.on('interactionCreate', async (interaction) => {
                 { name: `Punch Gain (Speed):`, value: punchspd, inline: true },
                 { name: `Ki Blast:`, value: punchstr, inline: true },
                 { name: `Defense:`, value: abs, inline: true },
-                { name: `Aura Boost:`, value: `${speed} Speed/s`, inline: true }
-            )
+                { name: `Aura Boost:`, value: `${speed} Speed/s`, inline: true })
+            .setThumbnail(interaction.user.avatarURL())
             .setColor('Random')
 
             await interaction.reply({embeds:[embedResponse]})
         
+    }
+
+    if(interaction.commandName == "bosslist") {
+        const isEphemeral = interaction.options.getBoolean("ephemeral") || false;
+        
+        const bossList = Object.entries(bosses)
+            .map(([name, value]) => `**${name}** - ${value.toLocaleString('en-US')}`)
+            .join("\n");
+        
+        const EmbedList = new EmbedBuilder()
+            .setTitle("Boss List")
+            .setDescription(`## **Boss names and base Stat Gain**\n${bossList}`)
+            .setColor("Random")
+        await interaction.reply({ embeds:[EmbedList], flags: isEphemeral ? MessageFlags.Ephemeral : 0})
     }
 })
 

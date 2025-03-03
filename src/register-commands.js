@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { REST, Routes, ApplicationCommandOptionType } = require('discord.js');
+const { REST, Routes, ApplicationCommandOptionType, Options } = require('discord.js');
 
 const commands = [
     {
@@ -24,22 +24,10 @@ const commands = [
                 type: ApplicationCommandOptionType.Number,
                 required: true,
                 choices: [
-                    {
-                        name: 'None',
-                        value: 0
-                    },
-                    {
-                        name: '2x',
-                        value: 2
-                    },
-                    {
-                        name: '3x',
-                        value: 3
-                    },
-                    {
-                        name: "4x",
-                        value: 4
-                    }
+                    { name: 'None', value: 0 },
+                    { name: '2x', value: 2 },
+                    { name: '3x', value: 3 },
+                    { name: "4x", value: 4 }
                 ]
             },
             {
@@ -48,6 +36,13 @@ const commands = [
                 type: ApplicationCommandOptionType.String,
                 required: true,
             }
+        ]
+    },
+    {
+        name: "bosslist",
+        description: "Display the list of the bosses",
+        options: [
+            { name: "ephemeral", description: "If you want he message to only be vissible to you. Default: false", type: ApplicationCommandOptionType.Boolean, required: false}
         ]
     }
 ]
