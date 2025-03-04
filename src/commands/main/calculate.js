@@ -27,6 +27,13 @@ module.exports = {
             return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", ephemeral: true})
         }
 
+        const boostDes = () => {
+            if (boost==0) return "None";
+            if (boost==2) return "2x";
+            if (boost==3) return "3x";
+            if (boost==4) return "4x";
+        }
+
         // Gets the base multiplier
         const baseMultiplier = 1 + (rebirths * 0.25);
 
@@ -55,6 +62,7 @@ module.exports = {
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Calculation`)
+            .setDescription(`## Inputs\n**Rebirths: ${rebirths.toLocaleString('en-US')}**\n**Talents: ${talents.toString()}**\n**Boost: ${boostDes()}**\n## Calculation`)
             .addFields(
                 { name: `${bossSelect}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
                 { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${statToReb.toString()}`, inline: true },
