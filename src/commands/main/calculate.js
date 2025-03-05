@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType, EmbedBuilder, MessageFlags, Message } = require('discord.js');
 const { bosses } = require('../../../config.json');
 
 module.exports = {
@@ -22,10 +22,14 @@ module.exports = {
         const boost = interaction.options.get('boost').value
         const bossSelect = interaction.options.get('boss').value
 
-        const bossBaseStats = bosses[bossSelect];
-        if (!bossBaseStats) {
-            return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", ephemeral: true})
+        const bossSelectLower = bossSelect.toLowerCase();
+        const bossKey = Object.keys(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
+        
+        if (!bossKey) {
+            return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", flags: MessageFlags.Ephemeral});
         }
+
+        const bossBaseStats = bosses[bossKey];
 
         const boostDes = () => {
             if (boost==0) return "None";
@@ -64,7 +68,7 @@ module.exports = {
             .setTitle(`${interaction.user.username}'s Calculation`)
             .setDescription(`## Inputs\n**Rebirths: ${rebirths.toLocaleString('en-US')}**\n**Talents: ${talents.toString()}**\n**Boost: ${boostDes()}**\n## Calculation`)
             .addFields(
-                { name: `${bossSelect}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
+                { name: `${bossKey}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
                 { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${statToReb.toString()}`, inline: true },
                 { name: `Punch Gain:`, value: `<:redgem:1346201700150808691> Strength: ${punchstr}\n<:bluegem:1346201659197489162> Speed: ${punchspd}`, inline: true },
                 { name: `Ki Blast:`, value: `<:yellowgem:1346201685537722388> ${punchstr}`, inline: true },
