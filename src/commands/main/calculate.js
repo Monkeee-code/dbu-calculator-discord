@@ -60,8 +60,23 @@ module.exports = {
         const speed = (totalMultiplier * 22.5).toLocaleString('en-US');
 
         // Gets stats needed for Rebirth
-        const m = 2000000
-        const statToReb = Math.floor(m * rebirths - 8000000).toLocaleString('en-US');
+        function getRebStats() {
+            if (rebirths <= 8) {
+                if (rebirths == 0) {
+                    let reb0 = 1000000;
+                    return reb0.toLocaleString('en-US');
+                }
+                let reb = rebirths * 1000000;
+                return reb.toLocaleString('en-US');
+            } else if (rebirths > 8) {
+                const m = 2000000;
+                const stats = (m * rebirths - 8000000);
+                return stats.toLocaleString('en-US');
+            }
+            // const m = 2000000
+            // const statToReb = Math.floor(m * rebirths - 8000000).toLocaleString('en-US');
+        }
+        
 
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
@@ -69,7 +84,7 @@ module.exports = {
             .setDescription(`## Inputs\n**Rebirths: ${rebirths.toLocaleString('en-US')}**\n**Talents: ${talents.toString()}**\n**Boost: ${boostDes()}**\n## Calculation`)
             .addFields(
                 { name: `${bossKey}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
-                { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${statToReb.toString()}`, inline: true },
+                { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${getRebStats().toString()}`, inline: true },
                 { name: `Punch Gain:`, value: `<:redgem:1346201700150808691> Strength: ${punchstr}\n<:bluegem:1346201659197489162> Speed: ${punchspd}`, inline: true },
                 { name: `Ki Blast:`, value: `<:yellowgem:1346201685537722388> ${punchstr}`, inline: true },
                 { name: `Defense:`, value: `<:greencube:1346201710518992999> ${abs}`, inline: true },
