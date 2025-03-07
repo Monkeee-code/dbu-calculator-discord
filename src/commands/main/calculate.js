@@ -61,16 +61,11 @@ module.exports = {
 
         // Gets stats needed for Rebirth
         function getRebStats() {
-            if (rebirths <= 8) {
-                if (rebirths == 0) {
-                    let reb0 = 1000000;
-                    return reb0.toLocaleString('en-US');
-                }
-                let reb = rebirths * 1000000;
+            if (rebirths <= 9) {
+                let reb = (rebirths * 1000000) + 1000000;
                 return reb.toLocaleString('en-US');
-            } else if (rebirths > 8) {
-                const m = 2000000;
-                const stats = (m * rebirths - 8000000);
+            } else if (rebirths > 9) {
+                const stats = 10000000 + ((rebirths - 9) * 2000000);
                 return stats.toLocaleString('en-US');
             }
             // const m = 2000000
