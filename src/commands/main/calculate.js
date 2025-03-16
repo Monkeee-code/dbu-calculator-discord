@@ -41,7 +41,7 @@ module.exports = {
 	if (rebirths < 0) {
 		return interaction.reply({
 			content: "Please use a valid value for rebirths!",
-		flags: MessageFlags.Ephemeral})
+		    flags: MessageFlags.Ephemeral})
 	}
         // Gets the base multiplier
         const baseMultiplier = 1 + (rebirths * 0.25);
