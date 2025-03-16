@@ -37,7 +37,12 @@ module.exports = {
             if (boost==3) return "3x";
             if (boost==4) return "4x";
         }
-
+	// Checks if rebirths are valid
+	if (rebirths < 0) {
+		return interaction.reply({
+			content: "Please use a valid value for rebirths!",
+		flags: MessageFlags.Ephemeral})
+	}
         // Gets the base multiplier
         const baseMultiplier = 1 + (rebirths * 0.25);
 
