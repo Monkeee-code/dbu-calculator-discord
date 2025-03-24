@@ -44,7 +44,7 @@ module.exports = {
 		    flags: MessageFlags.Ephemeral})
 	}
         // Gets the base multiplier
-        const baseMultiplier = 1 + (rebirths * 0.25);
+        const baseMultiplier = 1 + (rebirths * 0.5);
 
         // Define the total multiplier
         let totalMultiplier = baseMultiplier;
