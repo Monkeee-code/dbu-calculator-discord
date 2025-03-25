@@ -12,7 +12,7 @@ module.exports = {
             { name: '2x', value: 2 },
             { name: '3x', value: 3 },
             { name: "4x", value: 4 },
-            { name: '5x', value: 5}
+            { name: '5x', value: 5},
         ]},
         { name: "boss", description: "Boss to Get info", type: ApplicationCommandOptionType.String, required: true},
     ],
