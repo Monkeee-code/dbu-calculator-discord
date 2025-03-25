@@ -11,38 +11,41 @@ module.exports = {
             { name: 'None', value: 0 },
             { name: '2x', value: 2 },
             { name: '3x', value: 3 },
-            { name: "4x", value: 4 }
+            { name: "4x", value: 4 },
+            { name: '5x', value: 5}
         ]},
         { name: "boss", description: "Boss to Get info", type: ApplicationCommandOptionType.String, required: true},
     ],
 
     callback: async (client, interaction) => {
-        const rebirths = interaction.options.get('rebirths').value
-        const talents = interaction.options.get('talents').value
-        const boost = interaction.options.get('boost').value
-        const bossSelect = interaction.options.get('boss').value
+        const rebirths = interaction.options.get('rebirths').value;
+        const talents = interaction.options.get('talents').value;
+        const boost = interaction.options.get('boost').value;
+        const bossSelect = interaction.options.get('boss').value;
 
         const bossSelectLower = bossSelect.toLowerCase();
-        const bossKey = Object.keys(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
-        
+        const bossKey = Object.keyss(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
+
         if (!bossKey) {
-            return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", flags: MessageFlags.Ephemeral});
+            return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", flags: MessageFlags.Ephemeral });
         }
 
         const bossBaseStats = bosses[bossKey];
 
         const boostDes = () => {
-            if (boost==0) return "None";
-            if (boost==2) return "2x";
-            if (boost==3) return "3x";
-            if (boost==4) return "4x";
+            if (boost == 0) return "None";
+            if (boost == 2) return "2x";
+            if (boost == 3) return "3x";
+            if (boost == 4) return "4x";
+            if (boost == 5) return "5x";
+        };
+        // Checks if rebirths are valid
+        if (rebirths < 0) {
+            return interaction.reply({
+                content: "Please use a valid value for rebirths!",
+                flags: MessageFlags.Ephemeral
+            });
         }
-	// Checks if rebirths are valid
-	if (rebirths < 0) {
-		return interaction.reply({
-			content: "Please use a valid value for rebirths!",
-		    flags: MessageFlags.Ephemeral})
-	}
         // Gets the base multiplier
         const baseMultiplier = 1 + (rebirths * 0.5);
 
@@ -56,9 +59,10 @@ module.exports = {
         if (boost == 2) totalMultiplier += baseMultiplier;
         if (boost == 3) totalMultiplier += (2 * baseMultiplier);
         if (boost == 4) totalMultiplier += (3 * baseMultiplier);
+        if (boost == 5) totalMultiplier += (4 * baseMultiplier);
 
         // Gets the final stats
-        const finalStats = totalMultiplier * bossBaseStats
+        const finalStats = totalMultiplier * bossBaseStats;
         const punchstr = (totalMultiplier * 30).toLocaleString('en-US');
         const punchspd = (totalMultiplier * 15).toLocaleString('en-US');
         const abs = (totalMultiplier * 120).toLocaleString('en-US');
@@ -67,16 +71,16 @@ module.exports = {
         // Gets stats needed for Rebirth
         function getRebStats() {
             if (rebirths <= 9) {
-                let reb = (rebirths * 1000000) + 1000000;
+                let reb = (rebirths * 500000) + 500000;
                 return reb.toLocaleString('en-US');
             } else if (rebirths > 9) {
-                const stats = 10000000 + ((rebirths - 9) * 2000000);
+                const stats = (1000000 * rebirths) + 500000;
                 return stats.toLocaleString('en-US');
             }
             // const m = 2000000
             // const statToReb = Math.floor(m * rebirths - 8000000).toLocaleString('en-US');
         }
-        
+
 
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
@@ -90,8 +94,8 @@ module.exports = {
                 { name: `Defense:`, value: `<:greencube:1346201710518992999> ${abs}`, inline: true },
                 { name: `Aura Boost:`, value: `<:bluegem:1346201659197489162> ${speed} Speed/s`, inline: true })
             .setThumbnail(interaction.user.avatarURL())
-            .setColor('Random')
+            .setColor('Random');
 
-            await interaction.reply({embeds:[embedResponse]})
-    }
+        await interaction.reply({ embeds: [embedResponse] });
+    },
 }
