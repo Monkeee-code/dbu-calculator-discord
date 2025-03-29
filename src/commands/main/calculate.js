@@ -24,7 +24,7 @@ module.exports = {
         const bossSelect = interaction.options.get('boss').value;
 
         const bossSelectLower = bossSelect.toLowerCase();
-        const bossKey = Object.keyss(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
+        const bossKey = Object.keys(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
 
         if (!bossKey) {
             return interaction.reply({ content: "Invalid Boss Selection. Please use /bosslist to see the bosses", flags: MessageFlags.Ephemeral });
