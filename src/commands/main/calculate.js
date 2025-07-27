@@ -80,10 +80,27 @@ module.exports = {
             });
         }
 
+        function getRebRank() {
+            if (rebirths >= 5000) return `${rebirths.toLocaleString('en-US')} <:level8:1399024498812125294>`;
+            if (rebirths >= 3000) return `${rebirths.toLocaleString('en-US')} <:level7:1399024453006135347>`;
+            if (rebirths >= 1500) return `${rebirths.toLocaleString('en-US')} <:level6:1399024420609200231>`;
+            if (rebirths >= 1000) return `${rebirths.toLocaleString('en-US')} <:level5:1399024391706378321>`;
+            if (rebirths >= 750) return `${rebirths.toLocaleString('en-US')} <:level4:1399024366435700876>`;
+            if (rebirths >= 500) return `${rebirths.toLocaleString('en-US')} <:level3:1399024338853691533>`;
+            if (rebirths >= 250) return `${rebirths.toLocaleString('en-US')} <:level2:1399024310001209505>`;
+            if (rebirths >= 100) return `${rebirths.toLocaleString('en-US')} <:level1:1399024271388577872>`;
+            return `${rebirths.toLocaleString('en-US')} <:level1:1399024271388577872>`;
+        }
+
+        function getTalentIcon() {
+            if (talents) return "True <a:online:1399029272445976637>";
+            if (!talents) return "False <a:donotdisturb:1399029301583675432>";
+        }
+
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Calculation`)
-            .setDescription(`## Inputs\n**Rebirths: ${rebirths.toLocaleString('en-US')}**\n**Talents: ${talents.toString()}**\n**Boost: ${boostDes()}**\n## Calculation`)
+            .setDescription(`## Inputs\n**Rebirths: ${getRebRank()}**\n**Talents: ${getTalentIcon()}**\n**Boost: ${boostDes()}**\n## Calculation`)
             .addFields(
                 { name: `${bossKey}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
                 { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${getRebStats().toString()}`, inline: true },
