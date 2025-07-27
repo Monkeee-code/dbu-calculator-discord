@@ -70,10 +70,15 @@ module.exports = {
 
         // Gets stats needed for Rebirth
         function getRebStats() {
-            const n = 2000000 * 1.5 * rebirths;
+            const n = 2000000 + (2000000 * rebirths);
             return n.toLocaleString('en-US');
         };
-
+        if (bossBaseStats == "") {
+            return interaction.reply({
+                content: "Please select a valid boss from the list using /bosslist",
+                flags: MessageFlags.Ephemeral
+            });
+        }
 
         // Create an embed and respond with it
         const embedResponse = new EmbedBuilder()
