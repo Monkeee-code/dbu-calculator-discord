@@ -18,7 +18,6 @@ module.exports = {
         ]},
         { name: "boss", description: "Boss to Get info", type: ApplicationCommandOptionType.String, required: true},
     ],
-
     callback: async (client, interaction) => {
         let rebirths = interaction.options.get('rebirths').value;
         const talents = interaction.options.get('talents').value;
@@ -48,7 +47,7 @@ module.exports = {
                 if (rows.length > 0) {
                     rebirths = rows[0].rebirths;
                 } else {
-                    return interaction.reply({ content: "You have no stored rebirths. Please use /storereb to store rebirths.", flags: MessageFlags.Ephemeral });
+                    return interaction.reply({ content: "You have no stored rebirths. Please use /storerebs to store rebirths.", flags: MessageFlags.Ephemeral });
                 }
             } catch (error) {
                 console.error("Database error:", error);

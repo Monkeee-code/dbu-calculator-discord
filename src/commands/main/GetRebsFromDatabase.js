@@ -16,7 +16,7 @@ module.exports = {
                 const storedRebirths = rows[0].rebirths;
                 return interaction.reply({ content: `You have stored ${storedRebirths} rebirths.`, flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
             } else {
-                return interaction.reply({ content: "You have no stored rebirths.", flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
+                return interaction.reply({ content: "You have no stored rebirths. Use /storerebs to store your rebirths to the bot.", flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
             }
         } catch (error) {
             console.error("Database error:", error);

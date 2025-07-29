@@ -3,7 +3,7 @@ const db = require('../../db');
 
 
 module.exports = {
-    name: 'storereb',
+    name: 'storerebs',
     description: 'Store Rebirths for later use',
     options: [
         { name: "rebirths", description: "Rebirths to store", type: ApplicationCommandOptionType.Integer, required: true },
