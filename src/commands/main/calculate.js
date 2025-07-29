@@ -1,11 +1,13 @@
 const { ApplicationCommandOptionType, EmbedBuilder, MessageFlags, Message } = require('discord.js');
 const { bosses } = require('../../../config.json');
+const db = require('../../db');
 
 module.exports = {
     name: 'calculate',
     description: 'Calculates the info given by the user',
     options: [
-        { name: "rebirths", description: "Rebirths to calculate", type: ApplicationCommandOptionType.Integer, required: true},
+        { name: "rebirths", description: "Rebirths to calculate", type: ApplicationCommandOptionType.Integer, required: true, choices: [
+            { name: 'Stored', value: -231 }]},
         { name: "talents", description: "If you have 2x Permanent gamepass from shop", type: ApplicationCommandOptionType.Boolean, required: true},
         { name: "boost", description: "Global Booster to calculate", type: ApplicationCommandOptionType.Integer, required: true, choices: [
             { name: 'None', value: 0 },
@@ -18,7 +20,7 @@ module.exports = {
     ],
 
     callback: async (client, interaction) => {
-        const rebirths = interaction.options.get('rebirths').value;
+        let rebirths = interaction.options.get('rebirths').value;
         const talents = interaction.options.get('talents').value;
         const boost = interaction.options.get('boost').value;
         const bossSelect = interaction.options.get('boss').value;
@@ -39,6 +41,21 @@ module.exports = {
             if (boost == 4) return "4x";
             if (boost == 5) return "5x";
         };
+        // If rebirths is -231, get stored rebirths from the database
+        if (rebirths == -231) {
+            try {
+                const [rows] = await db.query('SELECT rebirths FROM users WHERE user_id = ?', [interaction.user.id]);
+                if (rows.length > 0) {
+                    rebirths = rows[0].rebirths;
+                } else {
+                    return interaction.reply({ content: "You have no stored rebirths. Please use /storereb to store rebirths.", flags: MessageFlags.Ephemeral });
+                }
+            } catch (error) {
+                console.error("Database error:", error);
+                return interaction.reply({ content: "An error occurred while retrieving your stored rebirths.", flags: MessageFlags.Ephemeral });
+            }
+        }
+
         // Checks if rebirths are valid
         if (rebirths < 0) {
             return interaction.reply({

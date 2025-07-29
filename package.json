@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "discord.js": "^14.18.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "mysql": "^2.18.1"
   },
   "name": "dbu-calculator-discord",
   "version": "1.0.0",
