@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType, EmbedBuilder, MessageFlags, Message } = require('discord.js');
+const { ApplicationCommandOptionType, EmbedBuilder, MessageFlags, } = require('discord.js');
 const { bosses } = require('../../../config.json');
 const db = require('../../db');
 
@@ -6,24 +6,27 @@ module.exports = {
     name: 'calculate',
     description: 'Calculates the info given by the user',
     options: [
-        { name: "rebirths", description: "Rebirths to calculate", type: ApplicationCommandOptionType.Integer, required: true, choices: [
-            { name: 'Stored', value: -231 }]},
-        { name: "talents", description: "If you have 2x Permanent gamepass from shop", type: ApplicationCommandOptionType.Boolean, required: true},
-        { name: "boost", description: "Global Booster to calculate", type: ApplicationCommandOptionType.Integer, required: true, choices: [
-            { name: 'None', value: 0 },
-            { name: '2x', value: 2 },
-            { name: '3x', value: 3 },
-            { name: "4x", value: 4 },
+        { name: "rebirthtype", description: "Select a type you want", type: ApplicationCommandOptionType.Integer, required: true, choices: [
+            { name: 'Stored', value: -231 },
+            { name: 'Custom', value: -232 },]},
+            { name: "talents", description: "If you have 2x Permanent gamepass from shop", type: ApplicationCommandOptionType.Boolean, required: true},
+            { name: "boost", description: "Global Booster to calculate", type: ApplicationCommandOptionType.Integer, required: true, choices: [
+                { name: 'None', value: 0 },
+                { name: '2x', value: 2 },
+                { name: '3x', value: 3 },
+                { name: "4x", value: 4 },
             { name: '5x', value: 5 },
         ]},
         { name: "boss", description: "Boss to Get info", type: ApplicationCommandOptionType.String, required: true},
+        { name: "rebirths", description: "Enter your rebirths to be calculated (ONLY CUSTOM TYPE)", type: ApplicationCommandOptionType.Integer, required: false,},
     ],
     callback: async (client, interaction) => {
-        let rebirths = interaction.options.get('rebirths').value;
+        const rebirthType = interaction.options.get('rebirthtype').value;
+        let rebirths = interaction.options.get('rebirths') ? interaction.options.get('rebirths').value : null;
         const talents = interaction.options.get('talents').value;
         const boost = interaction.options.get('boost').value;
         const bossSelect = interaction.options.get('boss').value;
-
+        // Validate boss selection
         const bossSelectLower = bossSelect.toLowerCase();
         const bossKey = Object.keys(bosses).find(boss => boss.toLowerCase() == bossSelectLower);
 
@@ -41,7 +44,7 @@ module.exports = {
             if (boost == 5) return "5x";
         };
         // If rebirths is -231, get stored rebirths from the database
-        if (rebirths == -231) {
+        if (rebirthType == -231) {
             try {
                 const [rows] = await db.query('SELECT rebirths FROM users WHERE user_id = ?', [interaction.user.id]);
                 if (rows.length > 0) {
@@ -54,14 +57,14 @@ module.exports = {
                 return interaction.reply({ content: "An error occurred while retrieving your stored rebirths.", flags: MessageFlags.Ephemeral });
             }
         }
-
-        // Checks if rebirths are valid
-        if (rebirths < 0) {
-            return interaction.reply({
-                content: "Please use a valid value for rebirths!",
-                flags: MessageFlags.Ephemeral
-            });
+        if (rebirthType == -232) {
+            if (rebirths === null || typeof rebirths !== 'number' || rebirths < 0) {
+                return interaction.reply({
+                    content: "Please use a valid value for rebirths!",
+                    flags: MessageFlags.Ephemeral});
+            }
         }
+
         // Gets the base multiplier
         const baseMultiplier = 1 + (rebirths * 0.5);
 
