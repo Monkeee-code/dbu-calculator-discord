@@ -11,7 +11,7 @@ module.exports = (client) => {
         let hours = now.getHours();
         let minutes = now.getMinutes();
         let seconds = now.getSeconds();
-        console.log(`[${hours}:${minutes}:${seconds}] Code is running... ${hours1}`);
+        console.log(`[${hours}:${minutes}:${seconds}] Code is running... (${hours1})`);
         hours1++;
     }, 3600000);
 };
