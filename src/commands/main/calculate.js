@@ -88,10 +88,15 @@ module.exports = {
         const speed = (totalMultiplier * 22.5).toLocaleString('en-US');
 
         // Gets stats needed for Rebirth
-        function getRebStats() {
-            const n = 2000000 + (2000000 * rebirths);
-            return n.toLocaleString('en-US');
-        };
+        function rebirthsNeeded() {
+            if (rebirths <= 1000) {
+                const rebs = 200000 + (15000 * rebirths);
+                return rebs.toLocaleString('en-US');
+            }   else {
+                const rebs = 200000 + (2000000 * rebirths);
+                return rebs.toLocaleString('en-US');
+            }
+        }
         if (bossBaseStats == "") {
             return interaction.reply({
                 content: "Please select a valid boss from the list using /bosslist",
@@ -122,7 +127,7 @@ module.exports = {
             .setDescription(`## Inputs\n**Rebirths: ${getRebRank()}**\n**Talents: ${getTalentIcon()}**\n**Boost: ${boostDes()}**\n## Calculation`)
             .addFields(
                 { name: `${bossKey}:`, value: `<:aquastar:1346201647432470588> ${finalStats.toLocaleString('en-US')}`, inline: true },
-                { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${getRebStats().toString()}`, inline: true },
+                { name: `Stats to Rebirth:`, value: `<:purplecube:1346201612837847122> ${rebirthsNeeded().toString()}`, inline: true },
                 { name: `Punch Gain:`, value: `<:redgem:1346201700150808691> Strength: ${punchstr}\n<:bluegem:1346201659197489162> Speed: ${punchspd}`, inline: true },
                 { name: `Ki Blast:`, value: `<:yellowgem:1346201685537722388> ${punchstr}`, inline: true },
                 { name: `Defense:`, value: `<:greencube:1346201710518992999> ${abs}`, inline: true },
