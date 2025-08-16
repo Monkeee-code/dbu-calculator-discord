@@ -66,7 +66,7 @@ module.exports = {
         }
 
         // Gets the base multiplier
-        const baseMultiplier = 1 + (rebirths * 0.5);
+        const baseMultiplier = 1 + (rebirths * 0.4);
 
         // Define the total multiplier
         let totalMultiplier = baseMultiplier;
