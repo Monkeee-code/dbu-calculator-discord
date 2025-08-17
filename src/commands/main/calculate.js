@@ -90,7 +90,7 @@ module.exports = {
         // Gets stats needed for Rebirth
         function rebirthsNeeded() {
             if (rebirths <= 1000) {
-                const rebs = 200000 + (15000 * rebirths);
+                const rebs = 200000 + (150000 * rebirths);
                 return rebs.toLocaleString('en-US');
             }   else {
                 const rebs = 200000 + (2000000 * rebirths);
