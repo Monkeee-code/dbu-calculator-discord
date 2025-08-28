@@ -8,7 +8,6 @@ module.exports = {
         { name: 'player2', description: 'Stats of the player being fused', type: ApplicationCommandOptionType.Integer, required: true },
         { name: 'ephemeral', description: 'Make the response visible only to you', type: ApplicationCommandOptionType.Boolean, required: false}
     ],
-    guildOnly: true,
     callback: async (client, interaction) => {
         const player1 = interaction.options.getInteger('player1');
         const player2 = interaction.options.getInteger('player2');
