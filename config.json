@@ -3,7 +3,7 @@
     "clientId": "1345798226011492454",
     "devs": ["642428322168569906", "909484644917981214"],
     "bosses": {
-        "## Earth": "",
+        "**__Earth__**": "**__17 Bosses__**",
         "X Fighter Trainer": 1000,
         "Krillin": 1400,
         "Kid Nogah": 2000,
@@ -21,7 +21,7 @@
         "SSJB Wukong": 45000,
         "Broccoli": 70000,
         "SSJG Kakata": 85000,
-        "## Bills Planet": "",
+        "**__Bills Planet__**": "**__9 Bosses__**",
         "Vegetable (GoD in training)": 110000,
         "Wukong (Omen)": 170000,
         "Vills (50%)": 245000,
@@ -31,6 +31,9 @@
         "Wukong (MUI)": 680000,
         "Vegetable (Ultra Ego)": 730000,
         "Nohag (Beast)": 780000,
-        "## Special Bosses": ""
+        "**__T.O.P__**": "**__3 Bosses__**",
+        "Piccolo (Base)": 830000,
+        "Callua (Base)": 880000,
+        "Gohan (Awakend)": 910000
     }
 } 

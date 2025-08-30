@@ -97,7 +97,7 @@ module.exports = {
                 return rebs.toLocaleString('en-US');
             }
         }
-        if (bossBaseStats == "") {
+        if (bossBaseStats == "" || typeof bossBaseStats !== 'number' || typeof bossBaseStats === 'string') {
             return interaction.reply({
                 content: "Please select a valid boss from the list using /bosslist",
                 flags: MessageFlags.Ephemeral
